@@ -53,6 +53,10 @@ public class DayOne {
 					firstBasementEntry;
 	
 	public DayOne(String data) {
+		if (data == null || data.length() == 0) {
+			throw new IllegalArgumentException("Initial data must not be null or empty.");
+		}
+		
 		this.data = data;
 	}
 
@@ -77,10 +81,17 @@ public class DayOne {
 			dataLength = data.length();
 		
 		for (int i = 0; i < dataLength; i++) {
-			if (data.charAt(i) == '(') {
+			switch (data.charAt(i)) {
+			case '(':
 				floor++;
-			} else {
+				break;
+				
+			case ')':
 				floor--;
+				break;
+
+			default: // Ignore characters that are not '(' or ')'
+				break;
 			}
 			
 			if (firstBasementEntry == null && floor == -1) {

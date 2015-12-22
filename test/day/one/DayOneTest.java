@@ -40,6 +40,24 @@ public class DayOneTest {
 	}
 
 	@Test
+	public void testBadInput() {
+		int expected = -3;
+		
+		assertEquals(expected, new DayOne(")a)b)--").getFloorCount());
+		assertEquals(expected, new DayOne("c)()dd)(#$))").getFloorCount());
+	}
+
+	@Test(expected = Exception.class)
+	public void testNullInput() {
+		new DayOne(null);
+	}
+
+	@Test(expected = Exception.class)
+	public void testEmptyInput() {
+		new DayOne("");
+	}
+
+	@Test
 	public void testBasementEntry1() {
 		int expected = 1;
 		
