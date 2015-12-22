@@ -15,5 +15,6 @@ public class DayOneRunner {
 		}
 		
 		System.out.println("Ending floor: " + DayOne.getFloor(input));
+		System.out.println("First basement entry: " + DayOne.getFirstBasementEntry(input));
 	}
 }

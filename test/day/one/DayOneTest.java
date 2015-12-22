@@ -38,4 +38,18 @@ public class DayOneTest {
 		assertEquals(expected, DayOne.getFloor(")))"));
 		assertEquals(expected, DayOne.getFloor(")())())"));
 	}
+
+	@Test
+	public void testBasementEntry1() {
+		int expected = 1;
+		
+		assertEquals(expected, DayOne.getFirstBasementEntry(")"));
+	}
+
+	@Test
+	public void testBasementEntry5() {
+		int expected = 5;
+		
+		assertEquals(expected, DayOne.getFirstBasementEntry("()())"));
+	}
 }
