@@ -47,36 +47,47 @@
 package day.one;
 
 public class DayOne {
+	
+	private String data;
+	private Integer floorCount,
+					firstBasementEntry;
+	
+	public DayOne(String data) {
+		this.data = data;
+	}
 
-	public static int getFloor(String input) {
-		int floorCount = 0;
-		
-		for (int i = 0; i < input.length(); i++) {
-			if (input.charAt(i) == '(') {
-				floorCount++;
-			} else {
-				floorCount--;
-			}
+	public int getFloorCount() {
+		if (floorCount == null) {
+			analyze();
 		}
 		
 		return floorCount;
 	}
 
-	public static int getFirstBasementEntry(String input) {
-		int floorCount = 0;
+	public int getFirstBasementEntry() {
+		if (firstBasementEntry == null) {
+			analyze();
+		}
 		
-		for (int i = 0; i < input.length(); i++) {
-			if (input.charAt(i) == '(') {
-				floorCount++;
+		return firstBasementEntry;
+	}
+
+	private void analyze() {
+		int floor = 0,
+			dataLength = data.length();
+		
+		for (int i = 0; i < dataLength; i++) {
+			if (data.charAt(i) == '(') {
+				floor++;
 			} else {
-				floorCount--;
+				floor--;
 			}
 			
-			if (floorCount == -1) {
-				return i + 1;
+			if (firstBasementEntry == null && floor == -1) {
+				firstBasementEntry = i + 1;
 			}
 		}
 		
-		return 0;
+		this.floorCount = floor; 
 	}
 }
