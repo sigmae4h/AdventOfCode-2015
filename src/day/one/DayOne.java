@@ -48,8 +48,8 @@ package day.one;
 
 public class DayOne {
 
-	private String data;
-	private Integer floorCount, firstBasementEntry;
+	private String data, firstBasementEntry;
+	private Integer floorCount;
 
 	public DayOne(String data) {
 		if (data == null || data.length() == 0) {
@@ -65,8 +65,12 @@ public class DayOne {
 		return floorCount;
 	}
 
-	public int getFirstBasementEntry() {
+	public String getFirstBasementEntry() {
 		analyze();
+		
+		if (firstBasementEntry == null) {
+			firstBasementEntry = "never";
+		}
 
 		return firstBasementEntry;
 	}
@@ -90,7 +94,7 @@ public class DayOne {
 				}
 
 				if (firstBasementEntry == null && floor == -1) {
-					firstBasementEntry = i + 1;
+					firstBasementEntry = String.valueOf(i + 1);
 				}
 			}
 

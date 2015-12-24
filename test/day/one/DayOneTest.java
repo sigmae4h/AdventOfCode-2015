@@ -59,15 +59,20 @@ public class DayOneTest {
 
 	@Test
 	public void testBasementEntry1() {
-		int expected = 1;
+		String expected = "1";
 		
 		assertEquals(expected, new DayOne(")").getFirstBasementEntry());
 	}
 
 	@Test
 	public void testBasementEntry5() {
-		int expected = 5;
+		String expected = "5";
 		
 		assertEquals(expected, new DayOne("()())").getFirstBasementEntry());
+	}
+
+	@Test
+	public void testNoBasementEntry() {
+		assertEquals("never", new DayOne("(((").getFirstBasementEntry());
 	}
 }
