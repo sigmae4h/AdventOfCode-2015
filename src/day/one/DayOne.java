@@ -47,58 +47,54 @@
 package day.one;
 
 public class DayOne {
-	
+
 	private String data;
-	private Integer floorCount,
-					firstBasementEntry;
-	
+	private Integer floorCount, firstBasementEntry;
+
 	public DayOne(String data) {
 		if (data == null || data.length() == 0) {
 			throw new IllegalArgumentException("Initial data must not be null or empty.");
 		}
-		
+
 		this.data = data;
 	}
 
 	public int getFloorCount() {
-		if (floorCount == null) {
-			analyze();
-		}
-		
+		analyze();
+
 		return floorCount;
 	}
 
 	public int getFirstBasementEntry() {
-		if (firstBasementEntry == null) {
-			analyze();
-		}
-		
+		analyze();
+
 		return firstBasementEntry;
 	}
 
 	private void analyze() {
-		int floor = 0,
-			dataLength = data.length();
-		
-		for (int i = 0; i < dataLength; i++) {
-			switch (data.charAt(i)) {
-			case '(':
-				floor++;
-				break;
-				
-			case ')':
-				floor--;
-				break;
+		if (floorCount == null) {
+			int floor = 0, dataLength = data.length();
 
-			default: // Ignore characters that are not '(' or ')'
-				break;
+			for (int i = 0; i < dataLength; i++) {
+				switch (data.charAt(i)) {
+				case '(':
+					floor++;
+					break;
+
+				case ')':
+					floor--;
+					break;
+
+				default: // Ignore characters that are not '(' or ')'
+					break;
+				}
+
+				if (firstBasementEntry == null && floor == -1) {
+					firstBasementEntry = i + 1;
+				}
 			}
-			
-			if (firstBasementEntry == null && floor == -1) {
-				firstBasementEntry = i + 1;
-			}
+
+			this.floorCount = floor;
 		}
-		
-		this.floorCount = floor; 
 	}
 }
