@@ -9,7 +9,7 @@ public class DayTwoRunner {
 
 	public static void main(String[] args) {
 		List<DayTwo> list = new ArrayList<>();
-		double total = 0, totalRibbon = 0;
+		double totalPaper = 0, totalRibbon = 0;
 		
 		try (Scanner input = new Scanner(new File("DayTwoInput.txt"), "UTF-8")) {
 			while (input.hasNext()) {
@@ -17,11 +17,11 @@ public class DayTwoRunner {
 			}
 			
 			for (DayTwo dayTwo : list) {
-				total += dayTwo.getSurfaceArea();
+				totalPaper += dayTwo.getSurfaceArea();
 				totalRibbon += dayTwo.getRibbonLength();
 			}
 			
-			System.out.println("Total square feet of wrapping paper needed: " + total);
+			System.out.println("Total square feet of wrapping paper needed: " + totalPaper);
 			System.out.println("Total square feet of ribbon needed: " + totalRibbon);
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());

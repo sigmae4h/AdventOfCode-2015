@@ -39,29 +39,36 @@ import java.util.Arrays;
 
 public class DayTwo {
 
-	double length, width, height;
+	double length, width, height, surfaceArea, ribbonLength, box[];
 
 	public DayTwo(String data) {
-		 String input[] = data.split("x");
-		 
-		 length = Double.parseDouble(input[0]);
-		 width = Double.parseDouble(input[1]);
-		 height = Double.parseDouble(input[2]);
-	}
-	
-	public double getSurfaceArea() {
-		double box[] = {length, width, height};
+		String input[] = data.split("x");
+
+		length = Double.parseDouble(input[0]);
+		width = Double.parseDouble(input[1]);
+		height = Double.parseDouble(input[2]);
+		box = new double[3];
 		
+		box[0] = length;
+		box[1] = width;
+		box[2] = height;
+
 		Arrays.sort(box);
+	}
+
+	public double getSurfaceArea() {
+		if (surfaceArea == 0) {
+			surfaceArea = 2 * length * width + 2 * width * height + 2 * height * length + box[0] * box[1];
+		}
 		
-		return 2 * length * width + 2 * width * height + 2 * height * length + box[0] * box[1];
+		return surfaceArea;
 	}
 
 	public double getRibbonLength() {
-		double box[] = {length, width, height};
+		if (ribbonLength == 0) {
+			ribbonLength = 2 * box[0] + 2 * box[1] + box[0] * box[1] * box[2];
+		}
 		
-		Arrays.sort(box);
-		
-		return 2 * box[0] + 2 * box[1] + box[0] * box[1] * box[2];
+		return ribbonLength;
 	}
 }
