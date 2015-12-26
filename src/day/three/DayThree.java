@@ -38,49 +38,47 @@
 
 package day.three;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DayThree {
 	private String input;
-	private Integer houseCount, roboCount;
+	private Integer numEntities, count;
 
-	public DayThree(String input) {
+	public DayThree(String input, int numEntities) {
 		if (input == null || input.length() == 0) {
 			throw new IllegalArgumentException("Initial data must not be null or empty.");
 		}
 
+		if (numEntities <= 0) {
+			throw new IllegalArgumentException("Number of entities must be 1 or more.");
+		}
+
 		this.input = input.toLowerCase().replaceAll("[^\\^v><]", "");
+		this.numEntities = numEntities;
 	}
 
-	public int getHouseCount() {
-		if (houseCount == null) {
-			int x = 0, y = 0, dataLength = input.length();
-			String key = String.valueOf(x + "," + y);
+	public int getCount() {
+		if (count == null) {
+			int dataLength = input.length();
+			List<XmasEntity> entities = new ArrayList<>();
 			Map<String, Integer> map = new HashMap<>();
-			
-			map.put(key, 1);
+
+			for (int i = 0; i < numEntities; i++) {
+				entities.add(new XmasEntity());
+			}
+
+			String key = entities.get(0).getPos();
+
+			map.put(key, numEntities);
 
 			for (int i = 0; i < dataLength; i++) {
-				switch (input.charAt(i)) {
-				case '^':
-					y++;
-					break;
+				XmasEntity entity = entities.get(i % numEntities);
 
-				case 'v':
-					y--;
-					break;
-
-				case '<':
-					x--;
-					break;
-
-				case '>':
-					x++;
-					break;
-				}
-
-				key = String.valueOf(x + "," + y);
+				entity.moveEntity(input.charAt(i));
+				key = entity.getPos();
 
 				if (map.containsKey(key)) {
 					map.replace(key, map.get(key) + 1);
@@ -89,73 +87,9 @@ public class DayThree {
 				}
 			}
 
-			houseCount = map.size();
+			count = map.size();
 		}
 
-		return houseCount;
-	}
-
-	public int getRoboCount() {
-		if (roboCount == null) {
-			int santaX = 0, santaY = 0, roboX = 0, roboY = 0, dataLength = input.length();
-			String key = String.valueOf(santaX + "," + santaY);
-			Map<String, Integer> map = new HashMap<>();
-			
-			map.put(key, 2);
-
-			for (int i = 0; i < dataLength; i++) {
-				if (i % 2 == 0) {
-					switch (input.charAt(i)) {
-					case '^':
-						roboY++;
-						break;
-
-					case 'v':
-						roboY--;
-						break;
-
-					case '<':
-						roboX--;
-						break;
-
-					case '>':
-						roboX++;
-						break;
-					}
-
-					key = String.valueOf(roboX + "," + roboY);
-				} else {
-					switch (input.charAt(i)) {
-					case '^':
-						santaY++;
-						break;
-
-					case 'v':
-						santaY--;
-						break;
-
-					case '<':
-						santaX--;
-						break;
-
-					case '>':
-						santaX++;
-						break;
-					}
-
-					key = String.valueOf(santaX + "," + santaY);
-				}
-
-				if (map.containsKey(key)) {
-					map.replace(key, map.get(key) + 1);
-				} else {
-					map.put(key, 1);
-				}
-			}
-
-			roboCount = map.size();
-		}
-
-		return roboCount;
+		return count;
 	}
 }
