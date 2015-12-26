@@ -22,6 +22,21 @@ public class DayThreeTest {
 	}
 
 	@Test
+	public void test3WithRobo() {
+		int expected = 3;
+
+		assertEquals(expected, new DayThree("^v").getRoboCount());
+		assertEquals(expected, new DayThree("^>v<").getRoboCount());
+	}
+
+	@Test
+	public void test11WithRobo() {
+		int expected = 11;
+
+		assertEquals(expected, new DayThree("^v^v^v^v^v").getRoboCount());
+	}
+
+	@Test
 	public void testBadInput() {
 		int expected = 4;
 

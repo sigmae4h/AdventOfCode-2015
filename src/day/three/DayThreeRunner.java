@@ -12,6 +12,7 @@ public class DayThreeRunner {
 			DayThree dayThree = new DayThree(input.nextLine());
 
 			System.out.println("Number of houses that received at least one present: " + dayThree.getHouseCount());
+			System.out.println("With Robo-Santa: " + dayThree.getRoboCount());
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
