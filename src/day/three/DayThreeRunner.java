@@ -11,8 +11,7 @@ public class DayThreeRunner {
 		try (Scanner input = new Scanner(new File("DayThreeInput.txt"), "UTF-8")) {
 			DayThree dayThree = new DayThree(input.nextLine());
 
-			System.out.println(
-					String.format("Number of houses that receive at least one present: %,d", dayThree.getHouseCount()));
+			System.out.println("Number of houses that received at least one present: " + dayThree.getHouseCount());
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}

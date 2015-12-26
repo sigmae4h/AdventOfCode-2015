@@ -17,6 +17,9 @@
 
 package day.three;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DayThree {
 	String input;
 	Integer houseCount;
@@ -25,13 +28,47 @@ public class DayThree {
 		if (input == null || input.length() == 0) {
 			throw new IllegalArgumentException("Initial data must not be null or empty.");
 		}
-
-		this.input = input;
+		
+		this.input = input.replaceAll("[^\\^v><]","");
 	}
 
 	public int getHouseCount() {
 		if (houseCount == null) {
+			int x = 0, y = 0, dataLength = input.length();
+			String key = String.valueOf(x + "," + y);
+			Map<String, Integer> map = new HashMap<>();
 			
+			map.put(key, 1);
+			
+			for (int i = 0; i < dataLength; i++) {
+				switch (input.charAt(i)) {
+				case '^':
+					y++;
+					break;
+
+				case 'v':
+					y--;
+					break;
+					
+				case '<':
+					x--;
+					break;
+					
+				case '>':
+					x++;
+					break;
+				}
+
+				key = String.valueOf(x + "," + y);
+				
+				if (map.containsKey(key)) {
+					map.replace(key, map.get(key) + 1);
+				} else {
+					map.put(key, 1);
+				}
+			}
+			
+			houseCount = map.size();
 		}
 
 		return houseCount;
