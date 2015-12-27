@@ -26,13 +26,26 @@
 
 package day.five;
 
+import java.util.regex.Pattern;
+
 public class DayFive {
 
 	public static boolean isNice(String string) {
 		if (string == null || string.length() == 0) {
 			throw new IllegalArgumentException("Input not be null or empty.");
 		}
-		
-		return false;
+
+		string = string.toLowerCase();
+		boolean response = false;
+		Pattern notAllowed = Pattern.compile("ab|cd|pq|xy");
+		Pattern doubleLetter = Pattern.compile("(\\w)\\1+");
+		Pattern threeVowels = Pattern.compile("(?i)(?:[a-z]*[aeiou]){3}[a-z]*");
+
+		if (!notAllowed.matcher(string).find() && doubleLetter.matcher(string).find()
+				&& threeVowels.matcher(string).find()) {
+			response = true;
+		}
+
+		return response;
 	}
 }
