@@ -19,13 +19,43 @@
 
 package day.four;
 
+import java.security.MessageDigest;
+
 public class DayFour {
-	
+
 	public static int calculate(String key) {
 		if (key == null || key.length() == 0) {
 			throw new IllegalArgumentException("Initial data must not be null or empty.");
 		}
 		
-		return 0;
+		int response = 0;
+
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+
+			for (int i = 0; i < Integer.MAX_VALUE; i++) {
+				String test = key + i;
+				md.update(test.getBytes());
+				byte[] digest = md.digest();
+
+				StringBuffer sb = new StringBuffer();
+				for (byte b : digest) {
+					sb.append(String.format("%02x", b & 0xff));
+				}
+
+				if (sb.toString().startsWith("00000")) {
+					response = i;
+					break;
+				} else {
+					System.out.println("Failed: " + i + " -> " + sb);
+				}
+
+				md.reset();
+			}
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+
+		return response;
 	}
 }
