@@ -27,6 +27,8 @@ package day.four;
 
 import java.security.MessageDigest;
 
+import javax.xml.bind.DatatypeConverter;
+
 public class DayFour {
 
 	public static int calculate(String key, String prefix) {
@@ -44,16 +46,12 @@ public class DayFour {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 
 			for (int i = 0; i < Integer.MAX_VALUE; i++) {
-				String test = key + i;
-				md.update(test.getBytes());
+				md.update((key + i).getBytes());
 				byte[] digest = md.digest();
 
-				StringBuffer sb = new StringBuffer();
-				for (byte b : digest) {
-					sb.append(String.format("%02x", b & 0xff));
-				}
+				String test = DatatypeConverter.printHexBinary(digest);
 
-				if (sb.toString().startsWith(prefix)) {
+				if (test.startsWith(prefix)) {
 					response = i;
 					break;
 				}
