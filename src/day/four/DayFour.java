@@ -15,6 +15,12 @@
  *     If your secret key is pqrstuv, the lowest number it combines with to make an MD5 hash starting with five zeroes 
  *     is 1048970; that is, the MD5 hash of pqrstuv1048970 looks like 000006136ef....
  * 
+ * 
+ * 
+ * --- Part Two ---
+ * 
+ * Now find one that starts with six zeroes.
+ * 
  */
 
 package day.four;
@@ -23,11 +29,15 @@ import java.security.MessageDigest;
 
 public class DayFour {
 
-	public static int calculate(String key) {
+	public static int calculate(String key, String prefix) {
 		if (key == null || key.length() == 0) {
-			throw new IllegalArgumentException("Initial data must not be null or empty.");
+			throw new IllegalArgumentException("Key must not be null or empty.");
 		}
-		
+
+		if (prefix == null || prefix.length() == 0) {
+			throw new IllegalArgumentException("Prefix must not be null or empty.");
+		}
+
 		int response = 0;
 
 		try {
@@ -43,11 +53,9 @@ public class DayFour {
 					sb.append(String.format("%02x", b & 0xff));
 				}
 
-				if (sb.toString().startsWith("00000")) {
+				if (sb.toString().startsWith(prefix)) {
 					response = i;
 					break;
-				} else {
-					System.out.println("Failed: " + i + " -> " + sb);
 				}
 
 				md.reset();

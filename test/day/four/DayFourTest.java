@@ -10,23 +10,33 @@ public class DayFourTest {
 	public void testAbcdef() {
 		int expected = 609043;
 
-		assertEquals(expected, DayFour.calculate("abcdef"));
+		assertEquals(expected, DayFour.calculate("abcdef", "00000"));
 	}
 
 	@Test
 	public void testPqrstuv() {
 		int expected = 1048970;
 
-		assertEquals(expected, DayFour.calculate("pqrstuv"));
+		assertEquals(expected, DayFour.calculate("pqrstuv", "00000"));
 	}
 
 	@Test(expected = Exception.class)
 	public void testNullInput() {
-		DayFour.calculate(null);
+		DayFour.calculate(null, "00000");
 	}
 
 	@Test(expected = Exception.class)
 	public void testEmptyInput() {
-		DayFour.calculate("");
+		DayFour.calculate("", "00000");
+	}
+
+	@Test(expected = Exception.class)
+	public void testPrefixNullInput() {
+		DayFour.calculate("abcdef", null);
+	}
+
+	@Test(expected = Exception.class)
+	public void testPrefixEmptyInput() {
+		DayFour.calculate("abcdef", "");
 	}
 }
