@@ -57,38 +57,30 @@ import java.util.regex.Pattern;
 public class DayFive {
 
 	public static boolean isNice(String string) {
-		if (string == null || string.length() == 0) {
-			throw new IllegalArgumentException("Input not be null or empty.");
-		}
+		isNullOrEmpty(string);
 
 		string = string.toLowerCase();
-		boolean response = false;
 		Pattern notAllowed = Pattern.compile("ab|cd|pq|xy");
 		Pattern doubleLetter = Pattern.compile("(.)\\1");
 		Pattern threeVowels = Pattern.compile("(.*[aeiou]){3}");
 
-		if (!notAllowed.matcher(string).find() && doubleLetter.matcher(string).find()
-				&& threeVowels.matcher(string).find()) {
-			response = true;
-		}
-
-		return response;
+		return !notAllowed.matcher(string).find() && doubleLetter.matcher(string).find()
+				&& threeVowels.matcher(string).find();
 	}
 
 	public static boolean isNiceV2(String string) {
-		if (string == null || string.length() == 0) {
-			throw new IllegalArgumentException("Input not be null or empty.");
-		}
+		isNullOrEmpty(string);
 
 		string = string.toLowerCase();
-		boolean response = false;
 		Pattern letterPairs = Pattern.compile("(..).*\\1");
 		Pattern repeatingLetter = Pattern.compile("(.).\\1");
 
-		if (letterPairs.matcher(string).find() && repeatingLetter.matcher(string).find()) {
-			response = true;
-		}
+		return letterPairs.matcher(string).find() && repeatingLetter.matcher(string).find();
+	}
 
-		return response;
+	private static void isNullOrEmpty(String string) {
+		if (string == null || string.length() == 0) {
+			throw new IllegalArgumentException("Input cannot be null or empty.");
+		}
 	}
 }
