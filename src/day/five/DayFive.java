@@ -64,8 +64,8 @@ public class DayFive {
 		string = string.toLowerCase();
 		boolean response = false;
 		Pattern notAllowed = Pattern.compile("ab|cd|pq|xy");
-		Pattern doubleLetter = Pattern.compile("(\\w)\\1+");
-		Pattern threeVowels = Pattern.compile("(?i)(?:[a-z]*[aeiou]){3}[a-z]*");
+		Pattern doubleLetter = Pattern.compile("(.)\\1");
+		Pattern threeVowels = Pattern.compile("(.*[aeiou]){3}");
 
 		if (!notAllowed.matcher(string).find() && doubleLetter.matcher(string).find()
 				&& threeVowels.matcher(string).find()) {
