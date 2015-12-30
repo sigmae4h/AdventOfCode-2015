@@ -41,4 +41,34 @@ public class DayFiveTest {
 	public void testEmptyInput() {
 		DayFive.isNice("");
 	}
+
+	@Test
+	public void testNice1V2() {
+		assertTrue(DayFive.isNiceV2("qjhvhtzxzqqjkmpb"));
+	}
+
+	@Test
+	public void testNice2V2() {
+		assertTrue(DayFive.isNiceV2("xxyxx"));
+	}
+
+	@Test
+	public void testNaughty1V2() {
+		assertFalse(DayFive.isNiceV2("uurcxstgmygtbstg"));
+	}
+
+	@Test
+	public void testNaughty2V2() {
+		assertFalse(DayFive.isNiceV2("ieodomkazucvgmuy"));
+	}
+
+	@Test(expected = Exception.class)
+	public void testNullInput2() {
+		DayFive.isNiceV2(null);
+	}
+
+	@Test(expected = Exception.class)
+	public void testEmptyInput2() {
+		DayFive.isNiceV2("");
+	}
 }

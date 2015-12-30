@@ -22,6 +22,32 @@
  * 
  * How many strings are nice?
  * 
+ * 
+ * 
+ * --- Part Two ---
+ * 
+ * Realizing the error of his ways, Santa has switched to a better model of determining whether a string is naughty or 
+ * nice. None of the old rules apply, as they are all clearly ridiculous.
+ * 
+ * Now, a nice string is one with all of the following properties:
+ * 
+ *     It contains a pair of any two letters that appears at least twice in the string without overlapping, like xyxy 
+ *     (xy) or aabcdefgaa (aa), but not like aaa (aa, but it overlaps).
+ *     It contains at least one letter which repeats with exactly one letter between them, like xyx, abcdefeghi (efe), 
+ *     or even aaa.
+ * 
+ * For example:
+ * 
+ *     qjhvhtzxzqqjkmpb is nice because is has a pair that appears twice (qj) and a letter that repeats with exactly one 
+ *     letter between them (zxz).
+ *     xxyxx is nice because it has a pair that appears twice and a letter that repeats with one between, even though 
+ *     the letters used by each rule overlap.
+ *     uurcxstgmygtbstg is naughty because it has a pair (tg) but no repeat with a single letter between them.
+ *     ieodomkazucvgmuy is naughty because it has a repeating letter with one between (odo), but no pair that appears 
+ *     twice.
+ * 
+ * How many strings are nice under these new rules?
+ * 
  */
 
 package day.five;
@@ -43,6 +69,23 @@ public class DayFive {
 
 		if (!notAllowed.matcher(string).find() && doubleLetter.matcher(string).find()
 				&& threeVowels.matcher(string).find()) {
+			response = true;
+		}
+
+		return response;
+	}
+
+	public static boolean isNiceV2(String string) {
+		if (string == null || string.length() == 0) {
+			throw new IllegalArgumentException("Input not be null or empty.");
+		}
+
+		string = string.toLowerCase();
+		boolean response = false;
+		Pattern letterPairs = Pattern.compile("(..).*\\1");
+		Pattern repeatingLetter = Pattern.compile("(.).\\1");
+
+		if (letterPairs.matcher(string).find() && repeatingLetter.matcher(string).find()) {
 			response = true;
 		}
 

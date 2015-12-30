@@ -10,7 +10,7 @@ public class DayFiveRunner {
 	public static void main(String[] args) {
 		try (Scanner input = new Scanner(new File("DayFiveInput.txt"), "UTF-8")) {
 			List<String> data = new ArrayList<>();
-			int numNiceStrings = 0;
+			int numNiceStrings = 0, numNiceStringsV2 = 0;
 
 			while (input.hasNext()) {
 				data.add(input.nextLine());
@@ -20,9 +20,14 @@ public class DayFiveRunner {
 				if (DayFive.isNice(string)) {
 					numNiceStrings++;
 				}
+
+				if (DayFive.isNiceV2(string)) {
+					numNiceStringsV2++;
+				}
 			}
 
 			System.out.println("Number of nice strings: " + numNiceStrings);
+			System.out.println("Number of nice strings V2: " + numNiceStringsV2);
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
