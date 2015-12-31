@@ -9,7 +9,21 @@ public class DaySixRunner {
 		try (Scanner input = new Scanner(new File("DaySixInput.txt"), "UTF-8")) {
 			DaySix daySix = new DaySix();
 
-			System.out.println();
+			while (input.hasNext()) {
+				daySix.setLights(input.nextLine());
+			}
+
+			int illuminationCount = 0;
+
+			for (boolean lightRow[] : daySix.getLights()) {
+				for (boolean light : lightRow) {
+					if (light) {
+						illuminationCount++;
+					}
+				}
+			}
+
+			System.out.println("Lights lit: " + illuminationCount);
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}

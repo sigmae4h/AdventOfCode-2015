@@ -30,4 +30,76 @@ package day.six;
 
 public class DaySix {
 
+	private boolean lights[][];
+
+	public DaySix() {
+		lights = new boolean[1000][1000];
+	}
+
+	public void setLights(String input) {
+		String commands[] = input.split("\\s");
+
+		if (commands.length == 5) { // Set on or off
+			String items[] = commands[2].split(",");
+			int from[] = new int[2];
+
+			for (int i = 0; i < items.length; i++) {
+				from[i] = Integer.parseInt(items[i]);
+			}
+
+			items = commands[4].split(",");
+			int to[] = new int[2];
+
+			for (int i = 0; i < items.length; i++) {
+				to[i] = Integer.parseInt(items[i]);
+			}
+
+			switch (commands[1]) {
+			case "on":
+				for (int i = from[0]; i <= to[0]; i++) {
+					for (int j = from[1]; j <= to[1]; j++) {
+						lights[i][j] = true;
+					}
+				}
+
+				break;
+
+			case "off":
+				for (int i = from[0]; i <= to[0]; i++) {
+					for (int j = from[1]; j <= to[1]; j++) {
+						lights[i][j] = false;
+					}
+				}
+
+				break;
+
+			default:
+				break;
+			}
+
+		} else { // Toggle
+			String items[] = commands[1].split(",");
+			int from[] = new int[2];
+
+			for (int i = 0; i < items.length; i++) {
+				from[i] = Integer.parseInt(items[i]);
+			}
+
+			items = commands[3].split(",");
+			int to[] = new int[2];
+
+			for (int i = 0; i < items.length; i++) {
+				to[i] = Integer.parseInt(items[i]);
+			}
+			for (int i = from[0]; i <= to[0]; i++) {
+				for (int j = from[1]; j <= to[1]; j++) {
+					lights[i][j] = !lights[i][j];
+				}
+			}
+		}
+	}
+
+	public boolean[][] getLights() {
+		return lights;
+	}
 }
