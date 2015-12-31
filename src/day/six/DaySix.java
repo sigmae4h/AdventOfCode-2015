@@ -37,69 +37,59 @@ public class DaySix {
 	}
 
 	public void setLights(String input) {
-		String commands[] = input.split("\\s");
+		isNullOrEmpty(input);
 
-		if (commands.length == 5) { // Set on or off
-			String items[] = commands[2].split(",");
-			int from[] = new int[2];
+		String commands[] = input.toLowerCase().replaceAll("t(urn|hrough)\\s", "").split("\\s");
+		int from[] = convertString(commands[1].split(","));
+		int to[] = convertString(commands[2].split(","));
 
-			for (int i = 0; i < items.length; i++) {
-				from[i] = Integer.parseInt(items[i]);
-			}
-
-			items = commands[4].split(",");
-			int to[] = new int[2];
-
-			for (int i = 0; i < items.length; i++) {
-				to[i] = Integer.parseInt(items[i]);
-			}
-
-			switch (commands[1]) {
-			case "on":
-				for (int i = from[0]; i <= to[0]; i++) {
-					for (int j = from[1]; j <= to[1]; j++) {
-						lights[i][j] = true;
-					}
+		switch (commands[0]) {
+		case "on":
+			for (int i = from[0]; i <= to[0]; i++) {
+				for (int j = from[1]; j <= to[1]; j++) {
+					lights[i][j] = true;
 				}
+			}
 
-				break;
+			break;
 
-			case "off":
-				for (int i = from[0]; i <= to[0]; i++) {
-					for (int j = from[1]; j <= to[1]; j++) {
-						lights[i][j] = false;
-					}
+		case "off":
+			for (int i = from[0]; i <= to[0]; i++) {
+				for (int j = from[1]; j <= to[1]; j++) {
+					lights[i][j] = false;
 				}
-
-				break;
-
-			default:
-				break;
 			}
 
-		} else { // Toggle
-			String items[] = commands[1].split(",");
-			int from[] = new int[2];
+			break;
 
-			for (int i = 0; i < items.length; i++) {
-				from[i] = Integer.parseInt(items[i]);
-			}
-
-			items = commands[3].split(",");
-			int to[] = new int[2];
-
-			for (int i = 0; i < items.length; i++) {
-				to[i] = Integer.parseInt(items[i]);
-			}
+		default: // Toggle
 			for (int i = from[0]; i <= to[0]; i++) {
 				for (int j = from[1]; j <= to[1]; j++) {
 					lights[i][j] = !lights[i][j];
 				}
 			}
+		
+			break;
 		}
 	}
 
 	public boolean[][] getLights() {
 		return lights;
+	}
+
+	private static void isNullOrEmpty(String string) {
+		if (string == null || string.length() == 0) {
+			throw new IllegalArgumentException("Input cannot be null or empty.");
+		}
+	}
+
+	private int[] convertString(String string[]) {
+		int result[] = new int[string.length];
+
+		for (int i = 0; i < string.length; i++) {
+			result[i] = Integer.parseInt(string[i]);
+		}
+
+		return result;
 	}
 }

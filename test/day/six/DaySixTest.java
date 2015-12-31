@@ -61,4 +61,14 @@ public class DaySixTest {
 			}
 		}
 	}
+
+	@Test(expected = Exception.class)
+	public void testNullInput() {
+		new DaySix().setLights(null);
+	}
+
+	@Test(expected = Exception.class)
+	public void testEmptyInput() {
+		new DaySix().setLights("");
+	}
 }
