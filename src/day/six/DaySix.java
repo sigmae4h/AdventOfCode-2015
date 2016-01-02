@@ -28,6 +28,11 @@
 
 package day.six;
 
+import day.six.lightcommand.LightCommand;
+import day.six.lightcommand.LightsOff;
+import day.six.lightcommand.LightsOn;
+import day.six.lightcommand.LightsToggle;
+
 public class DaySix {
 
 	private boolean lights[][];
@@ -39,37 +44,29 @@ public class DaySix {
 	public void setLights(String input) {
 		isNullOrEmpty(input);
 
-		String commands[] = input.toLowerCase().replaceAll("t(urn|hrough)\\s", "").split("\\s");
-		int from[] = convertString(commands[1].split(","));
-		int to[] = convertString(commands[2].split(","));
+		String command[] = input.toLowerCase().replaceAll("t(urn|hrough)\\s", "").split("\\s");
+		int from[] = convertString(command[1]);
+		int to[] = convertString(command[2]);
+		LightCommand lightCommand;
 
-		switch (commands[0]) {
+		switch (command[0]) {
 		case "on":
-			for (int i = from[0]; i <= to[0]; i++) {
-				for (int j = from[1]; j <= to[1]; j++) {
-					lights[i][j] = true;
-				}
-			}
-
+			lightCommand = new LightsOn();
 			break;
 
 		case "off":
-			for (int i = from[0]; i <= to[0]; i++) {
-				for (int j = from[1]; j <= to[1]; j++) {
-					lights[i][j] = false;
-				}
-			}
-
+			lightCommand = new LightsOff();
 			break;
 
-		default: // Toggle
-			for (int i = from[0]; i <= to[0]; i++) {
-				for (int j = from[1]; j <= to[1]; j++) {
-					lights[i][j] = !lights[i][j];
-				}
-			}
-		
+		default:
+			lightCommand = new LightsToggle();
 			break;
+		}
+
+		for (int i = from[0]; i <= to[0]; i++) {
+			for (int j = from[1]; j <= to[1]; j++) {
+				lights[i][j] = lightCommand.execute(lights[i][j]);
+			}
 		}
 	}
 
@@ -83,7 +80,8 @@ public class DaySix {
 		}
 	}
 
-	private int[] convertString(String string[]) {
+	private int[] convertString(String input) {
+		String string[] = input.split(",");
 		int result[] = new int[string.length];
 
 		for (int i = 0; i < string.length; i++) {
