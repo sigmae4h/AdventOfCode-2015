@@ -1,5 +1,6 @@
 package day.six;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -70,5 +71,27 @@ public class DaySixTest {
 	@Test(expected = Exception.class)
 	public void testEmptyInput() {
 		new DaySix().setLights("");
+	}
+
+	@Test
+	public void testBrightness1() {
+		String input = "turn on 0,0 through 0,0";
+		int expected = 1;
+		DaySix daySix = new DaySix();
+
+		daySix.setLights(input);
+		
+		assertEquals(expected, daySix.getBrightness());
+	}
+
+	@Test
+	public void testBrightness2000000() {
+		String input = "toggle 0,0 through 999,999";
+		int expected = 2_000_000;
+		DaySix daySix = new DaySix();
+
+		daySix.setLights(input);
+		
+		assertEquals(expected, daySix.getBrightness());
 	}
 }
