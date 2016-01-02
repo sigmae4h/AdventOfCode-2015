@@ -24,6 +24,7 @@ public class DaySixRunner {
 			}
 
 			System.out.println("Lights lit: " + illuminationCount);
+			System.out.println("Brightness: " + daySix.getBrightness());
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		}
