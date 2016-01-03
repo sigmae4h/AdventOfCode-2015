@@ -52,6 +52,9 @@
 
 package day.six;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import day.six.lightcommand.LightCommand;
 import day.six.lightcommand.LightsOff;
 import day.six.lightcommand.LightsOn;
@@ -59,19 +62,17 @@ import day.six.lightcommand.LightsToggle;
 
 public class DaySix {
 
-	private Light lights[][];
-	private int x, y;
+	private Light lights[];
+	private int col;
 
 	public DaySix() {
-		x = 1000;
-		y = x;
-		
-		lights = new Light[x][y];
-		
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
-				lights[i][j] = new Light();
-			}
+		int x = 1000;
+		col = x;
+
+		lights = new Light[x * col];
+
+		for (int i = 0; i < lights.length; i++) {
+			lights[i] = new Light();
 		}
 	}
 
@@ -79,8 +80,7 @@ public class DaySix {
 		isNullOrEmpty(input);
 
 		String command[] = input.toLowerCase().replaceAll("t(urn|hrough)\\s", "").split("\\s");
-		int from[] = convertString(command[1]);
-		int to[] = convertString(command[2]);
+		int items[] = convertString(command[1], command[2]);
 		LightCommand lightCommand;
 
 		switch (command[0]) {
@@ -97,34 +97,30 @@ public class DaySix {
 			break;
 		}
 
-		for (int i = from[0]; i <= to[0]; i++) {
-			for (int j = from[1]; j <= to[1]; j++) {
-				lightCommand.execute(lights[i][j]);
-			}
+		for (int i = 0; i < items.length; i++) {
+			lightCommand.execute(lights[items[i]]);
 		}
 	}
 
 	public boolean[][] getLights() {
-		boolean[][] response = new boolean[x][y];
-		
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
-				response[i][j] = lights[i][j].isLightOn();
+		boolean[][] response = new boolean[col][col];
+
+		for (int i = 0; i < col; i++) {
+			for (int j = 0; j < col; j++) {
+				response[i][j] = lights[(i * col) + j].isLightOn();
 			}
 		}
-		
+
 		return response;
 	}
 
 	public int getBrightness() {
 		int brightness = 0;
-		
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
-				brightness += lights[i][j].getBrightness();
-			}
+
+		for (int i = 0; i < lights.length; i++) {
+			brightness += lights[i].getBrightness();
 		}
-		
+
 		return brightness;
 	}
 
@@ -134,14 +130,22 @@ public class DaySix {
 		}
 	}
 
-	private int[] convertString(String input) {
-		String string[] = input.split(",");
-		int result[] = new int[string.length];
+	private int[] convertString(String from, String to) {
+		String fromRange[] = from.split(","), toRange[] = to.split(",");
+		List<Integer> items = new ArrayList<Integer>();
 
-		for (int i = 0; i < string.length; i++) {
-			result[i] = Integer.parseInt(string[i]);
+		for (int i = Integer.parseInt(fromRange[0]); i <= Integer.parseInt(toRange[0]); i++) {
+			for (int j = Integer.parseInt(fromRange[1]); j <= Integer.parseInt(toRange[1]); j++) {
+				items.add(i * col + j);
+			}
 		}
 
-		return result;
+		int response[] = new int[items.size()];
+
+		for (int i = 0; i < response.length; i++) {
+			response[i] = items.get(i).intValue();
+		}
+
+		return response;
 	}
 }
