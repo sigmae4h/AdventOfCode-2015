@@ -144,9 +144,4 @@ public class DaySix {
 
 		return result;
 	}
-
-	public int getBrightness() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
