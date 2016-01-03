@@ -59,10 +59,20 @@ import day.six.lightcommand.LightsToggle;
 
 public class DaySix {
 
-	private boolean lights[][];
+	private Light lights[][];
+	private int x, y;
 
 	public DaySix() {
-		lights = new boolean[1000][1000];
+		x = 1000;
+		y = x;
+		
+		lights = new Light[x][y];
+		
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				lights[i][j] = new Light();
+			}
+		}
 	}
 
 	public void setLights(String input) {
@@ -89,13 +99,33 @@ public class DaySix {
 
 		for (int i = from[0]; i <= to[0]; i++) {
 			for (int j = from[1]; j <= to[1]; j++) {
-				lights[i][j] = lightCommand.execute(lights[i][j]);
+				lightCommand.execute(lights[i][j]);
 			}
 		}
 	}
 
 	public boolean[][] getLights() {
-		return lights;
+		boolean[][] response = new boolean[x][y];
+		
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				response[i][j] = lights[i][j].isLightOn();
+			}
+		}
+		
+		return response;
+	}
+
+	public int getBrightness() {
+		int brightness = 0;
+		
+		for (int i = 0; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				brightness += lights[i][j].getBrightness();
+			}
+		}
+		
+		return brightness;
 	}
 
 	private static void isNullOrEmpty(String string) {
@@ -113,10 +143,5 @@ public class DaySix {
 		}
 
 		return result;
-	}
-
-	public int getBrightness() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 }

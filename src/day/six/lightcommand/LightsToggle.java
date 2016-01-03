@@ -1,9 +1,11 @@
 package day.six.lightcommand;
 
+import day.six.Light;
+
 public class LightsToggle implements LightCommand {
 
 	@Override
-	public boolean execute(boolean b) {
-		return !b;
+	public void execute(Light light) {
+		light.toggle();
 	}
 }

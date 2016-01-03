@@ -1,6 +1,8 @@
 package day.six.lightcommand;
 
+import day.six.Light;
+
 public interface LightCommand {
 
-	public boolean execute(boolean b);
+	public void execute(Light light);
 }

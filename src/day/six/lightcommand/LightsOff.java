@@ -1,9 +1,11 @@
 package day.six.lightcommand;
 
+import day.six.Light;
+
 public class LightsOff implements LightCommand {
 
 	@Override
-	public boolean execute(boolean b) {
-		return false;
+	public void execute(Light light) {
+		light.turnOff();
 	}
 }
