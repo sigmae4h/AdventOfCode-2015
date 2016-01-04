@@ -52,9 +52,6 @@
 
 package day.six;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import day.six.lightcommand.LightCommand;
 import day.six.lightcommand.LightsOff;
 import day.six.lightcommand.LightsOn;
@@ -132,18 +129,14 @@ public class DaySix {
 
 	private int[] convertString(String from, String to) {
 		String fromRange[] = from.split(","), toRange[] = to.split(",");
-		List<Integer> items = new ArrayList<Integer>();
+		int fromStart = Integer.parseInt(fromRange[0]), fromStop = Integer.parseInt(fromRange[1]),
+				toStart = Integer.parseInt(toRange[0]), toStop = Integer.parseInt(toRange[1]), idx = 0;
+		int response[] = new int[(toStart - fromStart + 1) * (toStop - fromStop + 1)];
 
-		for (int i = Integer.parseInt(fromRange[0]); i <= Integer.parseInt(toRange[0]); i++) {
-			for (int j = Integer.parseInt(fromRange[1]); j <= Integer.parseInt(toRange[1]); j++) {
-				items.add(i * col + j);
+		for (int i = fromStart; i <= toStart; i++) {
+			for (int j = fromStop; j <= toStop; j++) {
+				response[idx++] = i * col + j;
 			}
-		}
-
-		int response[] = new int[items.size()];
-
-		for (int i = 0; i < response.length; i++) {
-			response[i] = items.get(i).intValue();
 		}
 
 		return response;
