@@ -6,7 +6,7 @@ import java.io.FileReader;
 public class DayOneRunner {
 
 	public static void main(String[] args) {
-		try (BufferedReader br = new BufferedReader(new FileReader("Resources/DayOneInput.txt"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("Resources/Input/One.txt"))) {
 			DayOne dayOne = new DayOne(br.readLine());
 			
 			System.out.println("Ending floor: " + dayOne.getFloorCount());

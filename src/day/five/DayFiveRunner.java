@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class DayFiveRunner {
 
 	public static void main(String[] args) {
-		try (Scanner input = new Scanner(new File("Resources/DayFiveInput.txt"), "UTF-8")) {
+		try (Scanner input = new Scanner(new File("Resources/Input/Five.txt"), "UTF-8")) {
 			List<String> data = new ArrayList<>();
 			int numNiceStrings = 0, numNiceStringsV2 = 0;
 

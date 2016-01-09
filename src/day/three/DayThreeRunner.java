@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class DayThreeRunner {
 
 	public static void main(String[] args) {
-		try (Scanner input = new Scanner(new File("Resources/DayThreeInput.txt"), "UTF-8")) {
+		try (Scanner input = new Scanner(new File("Resources/Input/Three.txt"), "UTF-8")) {
 			String data = input.nextLine();
 
 			System.out.println(
