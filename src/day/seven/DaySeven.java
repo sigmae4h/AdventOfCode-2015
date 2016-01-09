@@ -52,6 +52,84 @@
 
 package day.seven;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import day.seven.gate.Gate;
+import day.seven.gate.GateFactory;
+
 public class DaySeven {
 
+	private Map<String, String> wires;
+
+	public DaySeven() {
+		wires = new HashMap<String, String>();
+	}
+
+	public void setWire(String input) {
+		isNullOrEmpty(input);
+
+		String command[] = input.split(" -> ");
+		wires.put(command[1], command[0]);
+	}
+
+	public void runCircuit() {
+
+		Map<String, String> temp = new HashMap<String, String>(wires);
+
+		while (temp.size() > 0) {
+			Iterator<Entry<String, String>> it = temp.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+				if (pair.getValue().matches("\\d+")) {
+					wires.put(pair.getKey(), pair.getValue());
+					it.remove();
+				} else {
+					try {
+						String options[] = pair.getValue().split("\\s");
+						Gate gate;
+
+						if (options.length == 1) {
+							temp.put(pair.getKey(), wires.get(options[0]));
+						} else {
+							if ("NOT".equals(options[0])) {
+
+								gate = GateFactory.getGate(options[0]);
+
+								gate.setWires(Integer.parseInt(wires.get(options[1])), 0);
+							} else {
+								gate = GateFactory.getGate(options[1]);
+
+								if (options[2].matches("\\d+")) {
+									gate.setWires(Integer.parseInt(wires.get(options[0])),
+											Integer.parseInt(options[2]));
+								} else if (options[0].matches("\\d+")) {
+									gate.setWires(Integer.parseInt(options[0]),
+											Integer.parseInt(wires.get(options[2])));
+								} else {
+									gate.setWires(Integer.parseInt(wires.get(options[0])),
+											Integer.parseInt(wires.get(options[2])));
+								}
+							}
+							temp.put(pair.getKey(), String.valueOf(gate.execute()));
+						}
+					} catch (Exception e) {
+						// System.out.println(e);
+					}
+				}
+			}
+		}
+	}
+
+	public int getWire(String string) {
+		return Integer.parseInt(wires.get(string));
+	}
+
+	private static void isNullOrEmpty(String string) {
+		if (string == null || string.length() == 0) {
+			throw new IllegalArgumentException("Input cannot be null or empty.");
+		}
+	}
 }
