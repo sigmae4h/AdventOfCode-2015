@@ -11,7 +11,7 @@ public class DayTwoRunner {
 		List<DayTwo> list = new ArrayList<>();
 		double totalPaper = 0, totalRibbon = 0;
 
-		try (Scanner input = new Scanner(new File("DayTwoInput.txt"), "UTF-8")) {
+		try (Scanner input = new Scanner(new File("Resources/DayTwoInput.txt"), "UTF-8")) {
 			while (input.hasNext()) {
 				try {
 					list.add(new DayTwo(input.nextLine()));
