@@ -64,9 +64,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import day.seven.gate.Gate;
-import day.seven.gate.GateFactory;
-
 public class DaySeven {
 
 	private Map<String, String> wires;
@@ -96,60 +93,44 @@ public class DaySeven {
 
 	private void runCircuit() {
 		wires = new HashMap<String, String>(circuit);
-		Map<String, String> temp = new HashMap<String, String>(wires);
+		Iterator<Entry<String, String>> it = wires.entrySet().iterator();
 
-		while (temp.size() > 0) {
-			Iterator<Entry<String, String>> it = temp.entrySet().iterator();
-
-			while (it.hasNext()) {
-				Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
-
-				if (pair.getValue().matches("\\d+")) {
-					wires.put(pair.getKey(), pair.getValue());
-					it.remove();
-				} else {
-					computeWireValue(temp, pair);
-				}
-			}
+		while (it.hasNext()) {
+			Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+			
+			recurseSolve(pair.getKey());
 		}
 
 		isDirty = false;
 	}
 
-	private void computeWireValue(Map<String, String> temp, Map.Entry<String, String> pair) {
-		try {
-			String options[] = pair.getValue().split("\\s"), choice;
-			Gate gate;
-
-			switch (options.length) {
-			case 1: // Wire to wire connection
-				choice = wires.get(options[0]);
-				break;
-
-			case 2: // Not gate
-				gate = GateFactory.getGate(options[0]);
-				choice = String.valueOf(gate.execute(Integer.parseInt(wires.get(options[1])), 0));
-				break;
-
-			default:
-				gate = GateFactory.getGate(options[1]);
-				int wire[] = new int[3];
-
-				for (int i = 0; i < wire.length; i += 2) {
-					if (wires.containsKey(options[i])) {
-						wire[i] = Integer.parseInt(wires.get(options[i]));
-					} else {
-						wire[i] = Integer.parseInt(options[i]);
-					}
-				}
-
-				choice = String.valueOf(gate.execute(wire[0], wire[2]));
-				break;
+	private int recurseSolve(String key) {
+		String value = wires.get(key);
+		
+		if (key.matches("\\d+")) {
+			return Integer.parseInt(key);
+		} else if (value.matches("\\d+")) {
+			return Integer.parseInt(value);
+		} else {
+			String keys[] = value.split(" ");
+			int result;
+			
+			if (keys.length == 1) {
+				result = recurseSolve(keys[0]);
+			} else if (keys.length == 2) {
+				result = ~recurseSolve(keys[1]) & 65535;
+			} else if ("AND".equals(keys[1])) {
+				result = recurseSolve(keys[0]) & recurseSolve(keys[2]);
+			} else if ("LSHIFT".equals(keys[1])) {
+				result = recurseSolve(keys[0]) << recurseSolve(keys[2]);
+			} else if ("RSHIFT".equals(keys[1])) {
+				result = recurseSolve(keys[0]) >> recurseSolve(keys[2]);
+			} else {
+				result = recurseSolve(keys[0]) | recurseSolve(keys[2]);
 			}
-
-			temp.put(pair.getKey(), choice);
-		} catch (Exception ex) {
-			// System.out.println(ex);
+			
+			wires.put(key, String.valueOf(result));
+			return result;
 		}
 	}
 
