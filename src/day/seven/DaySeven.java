@@ -70,68 +70,87 @@ import day.seven.gate.GateFactory;
 public class DaySeven {
 
 	private Map<String, String> wires;
+	private Map<String, String> circuit;
+	private boolean isDirty;
 
 	public DaySeven() {
-		wires = new HashMap<String, String>();
+		circuit = new HashMap<String, String>();
+		isDirty = true;
 	}
 
 	public void setWire(String input) {
 		isNullOrEmpty(input);
 
 		String command[] = input.split(" -> ");
-		wires.put(command[1], command[0]);
+		circuit.put(command[1], command[0]);
+		isDirty = true;
 	}
 
-	public void runCircuit() {
+	public int getWire(String string) {
+		if (isDirty) {
+			runCircuit();
+		}
 
+		return Integer.parseInt(wires.get(string));
+	}
+
+	private void runCircuit() {
+		wires = new HashMap<String, String>(circuit);
 		Map<String, String> temp = new HashMap<String, String>(wires);
 
 		while (temp.size() > 0) {
 			Iterator<Entry<String, String>> it = temp.entrySet().iterator();
+
 			while (it.hasNext()) {
 				Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+
 				if (pair.getValue().matches("\\d+")) {
 					wires.put(pair.getKey(), pair.getValue());
 					it.remove();
 				} else {
-					try {
-						String options[] = pair.getValue().split("\\s");
-						Gate gate;
-
-						if (options.length == 1) {
-							temp.put(pair.getKey(), wires.get(options[0]));
-						} else {
-							if ("NOT".equals(options[0])) {
-
-								gate = GateFactory.getGate(options[0]);
-
-								gate.setWires(Integer.parseInt(wires.get(options[1])), 0);
-							} else {
-								gate = GateFactory.getGate(options[1]);
-
-								if (options[2].matches("\\d+")) {
-									gate.setWires(Integer.parseInt(wires.get(options[0])),
-											Integer.parseInt(options[2]));
-								} else if (options[0].matches("\\d+")) {
-									gate.setWires(Integer.parseInt(options[0]),
-											Integer.parseInt(wires.get(options[2])));
-								} else {
-									gate.setWires(Integer.parseInt(wires.get(options[0])),
-											Integer.parseInt(wires.get(options[2])));
-								}
-							}
-							temp.put(pair.getKey(), String.valueOf(gate.execute()));
-						}
-					} catch (Exception e) {
-						// System.out.println(e);
-					}
+					computeWireValue(temp, pair);
 				}
 			}
 		}
+
+		isDirty = false;
 	}
 
-	public int getWire(String string) {
-		return Integer.parseInt(wires.get(string));
+	private void computeWireValue(Map<String, String> temp, Map.Entry<String, String> pair) {
+		try {
+			String options[] = pair.getValue().split("\\s"), choice;
+			Gate gate;
+
+			switch (options.length) {
+			case 1: // Wire to wire connection
+				choice = wires.get(options[0]);
+				break;
+
+			case 2: // Not gate
+				gate = GateFactory.getGate(options[0]);
+				choice = String.valueOf(gate.execute(Integer.parseInt(wires.get(options[1])), 0));
+				break;
+
+			default:
+				gate = GateFactory.getGate(options[1]);
+				int wire[] = new int[3];
+
+				for (int i = 0; i < wire.length; i += 2) {
+					if (wires.containsKey(options[i])) {
+						wire[i] = Integer.parseInt(wires.get(options[i]));
+					} else {
+						wire[i] = Integer.parseInt(options[i]);
+					}
+				}
+
+				choice = String.valueOf(gate.execute(wire[0], wire[2]));
+				break;
+			}
+
+			temp.put(pair.getKey(), choice);
+		} catch (Exception ex) {
+			// System.out.println(ex);
+		}
 	}
 
 	private static void isNullOrEmpty(String string) {

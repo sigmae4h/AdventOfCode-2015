@@ -1,9 +1,8 @@
+package day.seven;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import day.seven.DaySeven;
 
 public class DaySevenTest {
 
@@ -13,6 +12,7 @@ public class DaySevenTest {
 		int expected = 123;
 
 		daySeven.setWire("123 -> x");
+
 		assertEquals(expected, daySeven.getWire("x"));
 	}
 
@@ -24,8 +24,6 @@ public class DaySevenTest {
 		daySeven.setWire("123 -> x");
 		daySeven.setWire("456 -> y");
 		daySeven.setWire("x AND y -> d");
-
-		daySeven.runCircuit();
 
 		assertEquals(expected, daySeven.getWire("d"));
 	}
@@ -39,8 +37,6 @@ public class DaySevenTest {
 		daySeven.setWire("456 -> y");
 		daySeven.setWire("x OR y -> e");
 
-		daySeven.runCircuit();
-
 		assertEquals(expected, daySeven.getWire("e"));
 	}
 
@@ -52,8 +48,6 @@ public class DaySevenTest {
 		daySeven.setWire("123 -> x");
 		daySeven.setWire("x LSHIFT 2 -> f");
 
-		daySeven.runCircuit();
-
 		assertEquals(expected, daySeven.getWire("f"));
 	}
 
@@ -64,8 +58,6 @@ public class DaySevenTest {
 
 		daySeven.setWire("456 -> y");
 		daySeven.setWire("y RSHIFT 2 -> g");
-
-		daySeven.runCircuit();
 
 		assertEquals(expected, daySeven.getWire("g"));
 	}
@@ -80,8 +72,6 @@ public class DaySevenTest {
 		daySeven.setWire("NOT x -> h");
 		daySeven.setWire("NOT y -> i");
 
-		daySeven.runCircuit();
-
 		assertEquals(expectedX, daySeven.getWire("h"));
 		assertEquals(expectedY, daySeven.getWire("i"));
 	}
@@ -94,8 +84,6 @@ public class DaySevenTest {
 		daySeven.setWire("x LSHIFT 2 -> f");
 		daySeven.setWire("123 -> x");
 
-		daySeven.runCircuit();
-
 		assertEquals(expected, daySeven.getWire("f"));
 	}
 
@@ -106,8 +94,6 @@ public class DaySevenTest {
 
 		daySeven.setWire("456 -> y");
 		daySeven.setWire("1 AND y -> d");
-
-		daySeven.runCircuit();
 
 		assertEquals(expected, daySeven.getWire("d"));
 	}
@@ -120,8 +106,16 @@ public class DaySevenTest {
 		daySeven.setWire("456 -> y");
 		daySeven.setWire("y -> d");
 
-		daySeven.runCircuit();
-
 		assertEquals(expected, daySeven.getWire("d"));
+	}
+
+	@Test(expected = Exception.class)
+	public void testNullInput() {
+		new DaySeven().setWire(null);
+	}
+
+	@Test(expected = Exception.class)
+	public void testEmptyInput() {
+		new DaySeven().setWire("");
 	}
 }

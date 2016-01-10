@@ -2,8 +2,7 @@ package day.seven.gate;
 
 public class notGate extends Gate {
 
-	@Override
-	public int execute() {
+	public int execute(int wire1, int wire2) {
 		return ~wire1 & 65535;
 	}
 }
