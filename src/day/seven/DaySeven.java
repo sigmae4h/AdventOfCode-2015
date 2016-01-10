@@ -64,6 +64,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import day.seven.gate.GateFactory;
+
 public class DaySeven {
 
 	private Map<String, String> wires;
@@ -72,7 +74,7 @@ public class DaySeven {
 
 	public DaySeven() {
 		circuit = new HashMap<String, String>();
-		isDirty = true;
+		isDirty = false;
 	}
 
 	public void setWire(String input) {
@@ -97,7 +99,7 @@ public class DaySeven {
 
 		while (it.hasNext()) {
 			Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
-			
+
 			recurseSolve(pair.getKey());
 		}
 
@@ -105,33 +107,30 @@ public class DaySeven {
 	}
 
 	private int recurseSolve(String key) {
-		String value = wires.get(key);
-		
-		if (key.matches("\\d+")) {
-			return Integer.parseInt(key);
-		} else if (value.matches("\\d+")) {
-			return Integer.parseInt(value);
+		String value = wires.get(key), digitRegex = "\\d+";
+		int result;
+
+		if (key.matches(digitRegex)) {
+			result = Integer.parseInt(key);
+		} else if (value.matches(digitRegex)) {
+			result = Integer.parseInt(value);
 		} else {
+			if (value.matches("^NOT.*")) {
+				value = "0 " + value;
+			}
+
 			String keys[] = value.split(" ");
-			int result;
-			
+
 			if (keys.length == 1) {
 				result = recurseSolve(keys[0]);
-			} else if (keys.length == 2) {
-				result = ~recurseSolve(keys[1]) & 65535;
-			} else if ("AND".equals(keys[1])) {
-				result = recurseSolve(keys[0]) & recurseSolve(keys[2]);
-			} else if ("LSHIFT".equals(keys[1])) {
-				result = recurseSolve(keys[0]) << recurseSolve(keys[2]);
-			} else if ("RSHIFT".equals(keys[1])) {
-				result = recurseSolve(keys[0]) >> recurseSolve(keys[2]);
 			} else {
-				result = recurseSolve(keys[0]) | recurseSolve(keys[2]);
+				result = GateFactory.getGate(keys[1]).execute(recurseSolve(keys[0]), recurseSolve(keys[2]));
 			}
 			
 			wires.put(key, String.valueOf(result));
-			return result;
 		}
+
+		return result;
 	}
 
 	private static void isNullOrEmpty(String string) {

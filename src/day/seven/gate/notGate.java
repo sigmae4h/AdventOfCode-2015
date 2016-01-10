@@ -1,8 +1,8 @@
 package day.seven.gate;
 
-public class notGate extends Gate {
+public class notGate implements Gate {
 
 	public int execute(int wire1, int wire2) {
-		return ~wire1 & 65535;
+		return ~wire2 & 65535;
 	}
 }

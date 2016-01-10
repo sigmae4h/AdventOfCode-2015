@@ -1,6 +1,6 @@
 package day.seven.gate;
 
-public abstract class Gate {
+public interface Gate {
 
-	public abstract int execute(int wire1, int wire2);
+	public int execute(int wire1, int wire2);
 }

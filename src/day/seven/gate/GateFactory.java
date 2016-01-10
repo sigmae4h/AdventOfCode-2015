@@ -22,12 +22,8 @@ public class GateFactory {
 			gate = new rshiftGate();
 			break;
 
-		case "not":
+		default: // Case "not"
 			gate = new notGate();
-			break;
-
-		default:
-			gate = new emptyGate();
 			break;
 		}
 
