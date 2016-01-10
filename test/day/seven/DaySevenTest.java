@@ -2,6 +2,9 @@ package day.seven;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+import java.util.Scanner;
+
 import org.junit.Test;
 
 public class DaySevenTest {
@@ -117,5 +120,39 @@ public class DaySevenTest {
 	@Test(expected = Exception.class)
 	public void testEmptyInput() {
 		new DaySeven().setWire("");
+	}
+
+	@Test
+	public void testPart1Answer() {
+		DaySeven daySeven = new DaySeven();
+		int expected = 46065;
+
+		try (Scanner input = new Scanner(new File("Resources/Input/Seven.txt"), "UTF-8")) {
+			while (input.hasNext()) {
+				daySeven.setWire(input.nextLine());
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		
+		assertEquals(expected, daySeven.getWire("a"));
+	}
+
+	@Test
+	public void testPart2Answer() {
+		DaySeven daySeven = new DaySeven();
+		int expected = 14134, signalA = 46065;
+
+		try (Scanner input = new Scanner(new File("Resources/Input/Seven.txt"), "UTF-8")) {
+			while (input.hasNext()) {
+				daySeven.setWire(input.nextLine());
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		
+		daySeven.setWire(signalA + " -> b");
+		
+		assertEquals(expected, daySeven.getWire("a"));
 	}
 }
