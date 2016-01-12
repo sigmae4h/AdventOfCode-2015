@@ -2,8 +2,8 @@ package day.seven.gate;
 
 public class GateFactory {
 
-	public static Gate getGate(String string) {
-		Gate gate;
+	public static GateStrategy getGate(String string) {
+		GateStrategy gate;
 
 		switch (string.toLowerCase()) {
 		case "and":

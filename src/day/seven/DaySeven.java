@@ -68,8 +68,7 @@ import day.seven.gate.GateFactory;
 
 public class DaySeven {
 
-	private Map<String, String> wires;
-	private Map<String, String> circuit;
+	private Map<String, String> wires, circuit;
 	private boolean isDirty;
 
 	public DaySeven() {
@@ -81,11 +80,22 @@ public class DaySeven {
 		isNullOrEmpty(input);
 
 		String command[] = input.split(" -> ");
+
+		if (command[0].matches("^NOT.*")) {
+			command[0] = "0 " + command[0];
+		}
+
 		circuit.put(command[1], command[0]);
 		isDirty = true;
 	}
 
 	public int getWire(String string) {
+		isNullOrEmpty(string);
+		
+		if (circuit.size() < 1) {
+			throw new IllegalStateException("Please provide input with the setWire method.");
+		}
+		
 		if (isDirty) {
 			runCircuit();
 		}
@@ -115,10 +125,6 @@ public class DaySeven {
 		} else if (value.matches(digitRegex)) {
 			result = Integer.parseInt(value);
 		} else {
-			if (value.matches("^NOT.*")) {
-				value = "0 " + value;
-			}
-
 			String keys[] = value.split(" ");
 
 			if (keys.length == 1) {

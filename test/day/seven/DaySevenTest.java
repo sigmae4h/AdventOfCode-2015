@@ -122,6 +122,16 @@ public class DaySevenTest {
 		new DaySeven().setWire("");
 	}
 
+	@Test(expected = Exception.class)
+	public void testNullInputGet() {
+		new DaySeven().getWire(null);
+	}
+
+	@Test(expected = Exception.class)
+	public void testEmptyObject() {
+		new DaySeven().getWire("a");
+	}
+
 	@Test
 	public void testPart1Answer() {
 		DaySeven daySeven = new DaySeven();
