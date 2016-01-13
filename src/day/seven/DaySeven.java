@@ -98,7 +98,7 @@ public class DaySeven {
 
 	/*
 	 * The recurseSolve function will trace through the wires map until it finds
-	 * a numerical value, then it will save that value back to the wires map and
+	 * a numerical value, then it will save that value to the previous key and
 	 * repeat. Once it has two numerical values it will process those values
 	 * through a logic gate (and, or, left shift, right shift, not) and return
 	 * the result.
