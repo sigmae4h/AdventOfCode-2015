@@ -60,20 +60,16 @@
 package day.seven;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import day.seven.gate.GateFactory;
 
 public class DaySeven {
 
 	private Map<String, String> wires, circuit;
-	private boolean isDirty;
 
 	public DaySeven() {
 		circuit = new HashMap<String, String>();
-		isDirty = false;
 	}
 
 	public void setWire(String input) {
@@ -86,36 +82,27 @@ public class DaySeven {
 		}
 
 		circuit.put(command[1], command[0]);
-		isDirty = true;
 	}
 
 	public int getWire(String string) {
 		isNullOrEmpty(string);
-		
+
 		if (circuit.size() < 1) {
 			throw new IllegalStateException("Please provide input with the setWire method.");
 		}
-		
-		if (isDirty) {
-			runCircuit();
-		}
 
-		return Integer.parseInt(wires.get(string));
-	}
-
-	private void runCircuit() {
 		wires = new HashMap<String, String>(circuit);
-		Iterator<Entry<String, String>> it = wires.entrySet().iterator();
 
-		while (it.hasNext()) {
-			Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
-
-			recurseSolve(pair.getKey());
-		}
-
-		isDirty = false;
+		return recurseSolve(string);
 	}
 
+	/*
+	 * The recurseSolve function will trace through the wires map until it finds
+	 * a numerical value, then it will save that value back to the wires map and
+	 * repeat. Once it has two numerical values it will process those values
+	 * through a logic gate (and, or, left shift, right shift, not) and return
+	 * the result.
+	 */
 	private int recurseSolve(String key) {
 		String value = wires.get(key), digitRegex = "\\d+";
 		int result;
@@ -132,7 +119,7 @@ public class DaySeven {
 			} else {
 				result = GateFactory.getGate(keys[1]).execute(recurseSolve(keys[0]), recurseSolve(keys[2]));
 			}
-			
+
 			wires.put(key, String.valueOf(result));
 		}
 
