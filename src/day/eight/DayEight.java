@@ -53,17 +53,21 @@
 
 package day.eight;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DayEight {
 
 	public static Integer[] process(String string) {
-		Integer results[] = new Integer[3];
-		int excapeCharacters = (string.length() - string.replaceAll("\\\\[^x[a-f0-9]{2}]", "1").length());
-		int hexCharacters = (string.length() - string.replaceAll("\\\\x[a-f0-9]{2}", "1").length());
+		List<Integer> results = new ArrayList<Integer>();
+		int stringLength = string.length(),
+			excapeCharacters = (stringLength - string.replaceAll("\\\\[^x[a-f0-9]{2}]", "1").length()),
+			hexCharacters = (stringLength - string.replaceAll("\\\\x[a-f0-9]{2}", "1").length());
 
-		results[0] = string.length();
-		results[1] = string.length() - excapeCharacters - hexCharacters - 2;
-		results[2] = string.length() + (excapeCharacters * 2) + (hexCharacters / 3) + 4;
+		results.add(stringLength);
+		results.add(stringLength - excapeCharacters - hexCharacters - 2);
+		results.add(stringLength + (excapeCharacters * 2) + (hexCharacters / 3) + 4);
 
-		return results;
+		return results.toArray(new Integer[0]);
 	}
 }
