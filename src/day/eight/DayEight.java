@@ -59,6 +59,8 @@ import java.util.List;
 public class DayEight {
 
 	public static Integer[] process(String string) {
+		isNullOrEmpty(string);
+		
 		List<Integer> results = new ArrayList<Integer>();
 		int stringLength = string.length(),
 			excapeCharacters = (stringLength - string.replaceAll("\\\\[^x[a-f0-9]{2}]", "1").length()),
@@ -69,5 +71,11 @@ public class DayEight {
 		results.add(stringLength + (excapeCharacters * 2) + (hexCharacters / 3) + 4);
 
 		return results.toArray(new Integer[0]);
+	}
+
+	private static void isNullOrEmpty(String string) {
+		if (string == null || string.length() == 0) {
+			throw new IllegalArgumentException("Input cannot be null or empty.");
+		}
 	}
 }

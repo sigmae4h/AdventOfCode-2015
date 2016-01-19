@@ -75,4 +75,14 @@ public class DayEightTest {
 		assertEquals(expectedData, results[1]);
 		assertEquals(expectedEncoded, results[2]);
 	}
+
+	@Test(expected = Exception.class)
+	public void testNullInputGet() {
+		DayEight.process(null);
+	}
+
+	@Test(expected = Exception.class)
+	public void testEmptyObject() {
+		DayEight.process("");
+	}
 }
