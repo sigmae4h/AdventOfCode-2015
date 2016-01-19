@@ -60,11 +60,11 @@ public class DayEight {
 
 	public static Integer[] process(String string) {
 		isNullOrEmpty(string);
-		
+
 		List<Integer> results = new ArrayList<Integer>();
 		int stringLength = string.length(),
-			excapeCharacters = (stringLength - string.replaceAll("\\\\[^x[a-f0-9]{2}]", "1").length()),
-			hexCharacters = (stringLength - string.replaceAll("\\\\x[a-f0-9]{2}", "1").length());
+				excapeCharacters = stringLength - string.replaceAll("\\\\[^x[a-f0-9]{2}]", "1").length(),
+				hexCharacters = stringLength - string.replaceAll("\\\\x[a-f0-9]{2}", "1").length();
 
 		results.add(stringLength);
 		results.add(stringLength - excapeCharacters - hexCharacters - 2);
